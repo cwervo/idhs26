@@ -65,15 +65,22 @@
           <li><strong>The 1-Bit Constraint:</strong> Understanding <a href="https://jdobr.es/blog/dithering/">dithering</a> and why thermal printers cannot print grey.</li>
       </ul>
 
-    <h3>Technical Setup</h3>
+      <h3>Technical Setup</h3>
       <p>Before we break into groups, everyone needs to set up their Python environment to talk to our Rongta RP326 printers. We'll be using a lightning-fast package manager called <code>uv</code> to handle our libraries automatically.</p>
       
       <details>
-        <summary>Step 1: Install uv</summary>
-        <p>Open your terminal and install the <code>uv</code> tool:</p>
+        <summary>Step 1: Install uv (Mac, Linux, & Windows)</summary>
+        <p>Open your terminal and install the <code>uv</code> tool. Choose the command for your operating system:</p>
         <ul>
-          <li><strong>Mac/Linux:</strong> <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
-          <li><strong>Windows:</strong> <pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></li>
+          <li><strong>Mac & Linux:</strong> 
+            <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+          </li>
+          <li><strong>Windows (PowerShell):</strong> 
+            <pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+          </li>
+          <li><strong>Windows (Fallback):</strong> If PowerShell gives you an execution error, or if you are using standard Command Prompt, you can install it via pip:
+            <pre><code>pip install uv</code></pre>
+          </li>
         </ul>
       </details>
 
@@ -86,7 +93,7 @@
 
       <details>
         <summary>Step 3: Find Your USB Vendor &amp; Product IDs</summary>
-        <p>To let Python talk to the printer, you need its exact hardware address. Once found, update the <code>VENDOR_ID</code> and <code>PRODUCT_ID</code> variables inside your Python script.</p>
+        <p>To let Python talk to the printer, you need its exact hardware address.</p>
         <ul>
           <li><strong>Mac:</strong> Click the Apple Logo > About This Mac > More Info > System Report > USB. Find the printer and look for the Vendor ID and Product ID (e.g., <code>0x0fe6</code>).</li>
           <li><strong>Windows:</strong> Open Device Manager > Universal Serial Bus controllers > Right-click the printer > Properties > Details > Hardware Ids.</li>
@@ -94,23 +101,19 @@
       </details>
 
       <details>
-        <summary>Step 4: Run the Photobooth</summary>
-        <p>Because our script includes the dependencies at the very top, you don't need to manually install OpenCV or Pillow! Just navigate to your project folder in the terminal and run the script with <code>uv</code>:</p>
-        <pre><code>uv run photobooth.py</code></pre>
-        <p>It will automatically create an environment, download the libraries in milliseconds, and launch your webcam.</p>
-      </details>
+        <summary>Step 4: Create the Script</summary>
+        <p>Create a file named <code>photobooth.py</code> in your project folder and copy in this starter code. Don't forget to update the <code>VENDOR_ID</code> and <code>PRODUCT_ID</code>!</p>
+<pre><code># /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "opencv-python",
+#     "pillow",
+#     "python-escpos",
+#     "pyusb",
+# ]
+# ///
 
-      <hr />
-      <h3>15 Minute Break</h3>
-      <hr />
-
-      <h3>Group Activity: The 1-Bit Photobooth</h3>
-      <p>We are breaking up into 3 groups. We will pair program using the starter code below to build a functional hardware photobooth, and then each group will modify the code to create a unique experience.</p>
-
-      <details>
-        <summary>Starter Code: The 1-Bit Thermal Photobooth</summary>
-        <p>Copy this code into a file named <code>photobooth.py</code>. Remember to change the <code>VENDOR_ID</code> and <code>PRODUCT_ID</code>!</p>
-<pre><code>import cv2
+import cv2
 from PIL import Image
 from escpos.printer import Usb
 
@@ -118,8 +121,8 @@ from escpos.printer import Usb
 # 1. SETUP THE PRINTER
 # ==========================================
 # Students: Replace 0xXXXX with your specific Vendor and Product IDs!
-VENDOR_ID = 0x04b8  # Example ID, needs to be updated
-PRODUCT_ID = 0x0202 # Example ID, needs to be updated
+VENDOR_ID = 0x0fe6  # Example ID, needs to be updated
+PRODUCT_ID = 0x811e # Example ID, needs to be updated
 
 try:
     print("Connecting to Rongta RP326...")
@@ -186,8 +189,21 @@ cap.release()
 cv2.destroyAllWindows()</code></pre>
       </details>
 
+      <details>
+        <summary>Step 5: Run the Photobooth</summary>
+        <p>Because our script includes the dependencies at the very top, you don't need to manually install OpenCV or Pillow! Just navigate to your project folder in the terminal and run the script with <code>uv</code>:</p>
+        <pre><code>uv run photobooth.py</code></pre>
+        <p>It will automatically create an environment, download the libraries in milliseconds, and launch your webcam.</p>
+      </details>
+
+      <hr />
+      <h3>15 Minute Break</h3>
+      <hr />
+
+      <h3>Group Activity: Iterating the 1-Bit Photobooth</h3>
+      <p>Now that everyone has a working base script, we are breaking up into 3 groups. Pair program to modify the code and create a unique experience based on one of the prompts below:</p>
+
       <h4>Prototyping Prompts</h4>
-      <p>Once your group gets the base script printing, pick one of the following prompts to iterate on:</p>
       <ul>
         <li><strong>Group 1: The Information Receipt</strong><br> Combine the photobooth experience with one (or a mix!) of your ideas from the receipt homework assignment. Can you incorporate borders, text decorations, or special formatting to make the visual hierarchy more clear in such a small space?</li>
         <li><strong>Group 2: The Analog Glitch Art Generator</strong><br>Break the dithering! Intercept the image using OpenCV before it goes to the printer. Crank the contrast, apply edge-detection filters (like Canny), or slice and mirror the image array to create thermal glitch art.</li>
@@ -196,7 +212,7 @@ cv2.destroyAllWindows()</code></pre>
 
       <h3>Homework</h3>
       <ul>
-        <li><strong>Reading:</strong> <a href="https://folk.computer/docs/" target="_blank">Folk OS Documentation</a> (Review the introductory guides and basic Tcl syntax to prepare for next week).</li>
+        <li><strong>Reading:</strong>Take a look at <a href="https://folk.computer/guides/what-folk-can-do" target="_blank">What Folk Can Do</a>.</li>
         <li><strong>Assignment:</strong> Think of 3 spatial programs you'd like to make using Folk Computer. Wireframe them in Figma, detailing how a user would physically interact with them on the table (e.g., rotating them, pointing at them, moving them next to another program).</li>
       </ul>
     </div>

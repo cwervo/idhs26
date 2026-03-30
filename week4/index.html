@@ -65,22 +65,39 @@
           <li><strong>The 1-Bit Constraint:</strong> Understanding <a href="https://jdobr.es/blog/dithering/">dithering</a> and why thermal printers cannot print grey.</li>
       </ul>
 
-      <h3>Technical Setup</h3>
-      <p>Before we break into groups, everyone needs to set up their Python environment to talk to our Rongta RP326 printers.</p>
+    <h3>Technical Setup</h3>
+      <p>Before we break into groups, everyone needs to set up their Python environment to talk to our Rongta RP326 printers. We'll be using a lightning-fast package manager called <code>uv</code> to handle our libraries automatically.</p>
       
       <details>
-        <summary>Step 1: Install Python Libraries</summary>
-        <p>Open your terminal and install the required packages for computer vision, image processing, and printer communication:</p>
-        <pre><code>pip install opencv-python pillow python-escpos</code></pre>
+        <summary>Step 1: Install uv</summary>
+        <p>Open your terminal and install the <code>uv</code> tool:</p>
+        <ul>
+          <li><strong>Mac/Linux:</strong> <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
+          <li><strong>Windows:</strong> <pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></li>
+        </ul>
       </details>
 
       <details>
-        <summary>Step 2: Find Your USB Vendor &amp; Product IDs</summary>
-        <p>To let Python talk to the printer, you need its exact hardware address.</p>
+        <summary>Step 2: Mac Users ONLY - System Drivers & Camera Permissions</summary>
+        <p>If you are on a Mac, you need a system-level library to talk to USB devices. Run this in your terminal (requires Homebrew):</p>
+        <pre><code>brew install libusb</code></pre>
+        <p><em>Important: Mac users must also explicitly grant their Terminal application (or VS Code) Camera permissions by going to System Settings > Privacy & Security > Camera.</em></p>
+      </details>
+
+      <details>
+        <summary>Step 3: Find Your USB Vendor &amp; Product IDs</summary>
+        <p>To let Python talk to the printer, you need its exact hardware address. Once found, update the <code>VENDOR_ID</code> and <code>PRODUCT_ID</code> variables inside your Python script.</p>
         <ul>
-          <li><strong>Mac:</strong> Click the Apple Logo > About This Mac > System Report > USB. Find the printer and look for the Vendor ID and Product ID (usually looks like <code>0x04b8</code>).</li>
+          <li><strong>Mac:</strong> Click the Apple Logo > About This Mac > More Info > System Report > USB. Find the printer and look for the Vendor ID and Product ID (e.g., <code>0x0fe6</code>).</li>
           <li><strong>Windows:</strong> Open Device Manager > Universal Serial Bus controllers > Right-click the printer > Properties > Details > Hardware Ids.</li>
         </ul>
+      </details>
+
+      <details>
+        <summary>Step 4: Run the Photobooth</summary>
+        <p>Because our script includes the dependencies at the very top, you don't need to manually install OpenCV or Pillow! Just navigate to your project folder in the terminal and run the script with <code>uv</code>:</p>
+        <pre><code>uv run photobooth.py</code></pre>
+        <p>It will automatically create an environment, download the libraries in milliseconds, and launch your webcam.</p>
       </details>
 
       <hr />

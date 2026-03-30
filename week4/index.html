@@ -3,116 +3,184 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interaction Design History</title>
+    <title>Interaction Design History - Week 4</title>
     <link rel="stylesheet" href="../style.css" />
+    <style>
+      /* Styles for the collapsible code blocks */
+      details {
+        background-color: #003033;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+      }
+      summary {
+        font-weight: bold;
+        cursor: pointer;
+        color: #007bff;
+      }
+      summary:hover {
+        text-decoration: underline;
+      }
+      pre {
+        background-color: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 0.9em;
+        margin-top: 10px;
+      }
+      code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>Interaction Design History Spring 2026 | Week 4 | March 30, 2026</h1>
 
-      <h2>Agenda</h2>
+      <h2>Tangible Output — Hacking the Receipt Printer</h2>
 
+      <h3>Agenda Overview</h3>
       <ul>
-          <li>Lecture: Skeumorphism in UI Design</li>
-          <li>Lecture: The Web &amp; Rich GUIs</li>
-          <li>Exercise: Windows XP - Paint</li>
-          <li>Exercise: Decker - Guided Tour</li>
-          <li>Homework</li>
+        <li>Reading Review: Calm Technology &amp; Seamful Design</li>
+        <li>Review &amp; Show-and-Tell: Speculative Figma Receipts</li>
+        <li>Lecture: Introduction to Python, ESC/POS, and Hardware Hacking</li>
+        <li>Technical Setup: Connecting to the RP326</li>
+        <li>Break (15 minutes)</li>
+        <li>Group Activity: The 1-Bit Thermal Photobooth</li>
+        <li>Homework Overview</li>
       </ul>
 
-      <h3>Skeumorphism in UI Design</h3>
+      <h3>Reading &amp; Design Review</h3>
       <ul>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Skeuomorph">Skeumorphs</a>
-          </li>
-          <li>
-              <a href="https://www.nngroup.com/articles/skeuomorphism/">Skeuomorphism</a>
-          </li>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Windows_XP_visual_styles">Windows XP visual styles</a>
-          </li>
-          <li>
-              <a href="https://www.figma.com/resource-library/what-is-skeuomorphism/">What Is Skeuomorphism (Figma)</a>
-          </li>
-          <li>
-              <a href="https://www.figma.com/community/search?resource_type=mixed&sort_by=relevancy&query=skeuomorphism&editor_type=all&price=all&creators=all">Skeuomorphism on Figma</a>
-          </li>
-          <li>
-              <a href="https://appleinsider.com/articles/22/08/23/what-apple-learned-from-skeuomorphism-and-why-it-still-matters">Apple &amp; Skeuomorphism</a>
-          </li>
-          <li>
-              <a href="https://betawiki.net/wiki/Luna">Windows XP / Luna</a>
-          </li>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Aqua_(user_interface)">Apple / Aqua</a>
-          </li>
+        <li><strong>Reading Discussion:</strong> How does the concept of "Calm Computing" and "Seamful Design" apply to physical printouts?</li>
+        <li><strong>Show-and-Tell:</strong> Share your high-fidelity 1-bit Figma receipts. How did the constraint of no color and thermal printing resolution change your approach to information hierarchy?</li>
       </ul>
 
-      <h3>The Web &amp; Rich GUIs</h3>
+      <h3>Lecture: ESC/POS and the Magic of Hardware</h3>
       <ul>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Web_2.0#Web_1.0">Web 1.0</a>
-          </li>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Web_2.0">Web 2.0</a>
-          </li>
-          <li>
-              <a href="https://en.wikipedia.org/wiki/Ajax_(programming)#/media/File:Ajax-vergleich-en.svg">AJAX</a>
-          </li>
-          <li>
-              <a href="https://www.w3schools.com/xml/tryit.asp?filename=tryajax_first">AJAX example</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-1996">Flash - 1996</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-1997">Flash - 1997</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-1998">Flash - 1998</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-1999">Flash - 1999</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-2000">Flash - 2000</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/flash-websites/year-2001">Flash - 2001</a>
-          </li>
-          <li>
-              <a href="https://www.smashingmagazine.com/2009/06/50-beautiful-flash-websites/">50 Beautiful Flash Websites</a>
-          </li>
-          <li>
-              <a href="https://www.webdesignmuseum.org/web-design-history/steve-jobs-and-his-thoughts-on-flash-2010">The Death of Flash</a>
-          </li>
+          <li><strong>What is <a href="https://en.wikipedia.org/wiki/ESC/P">ESC</a>/POS?</strong> The standard command language that runs almost every point-of-sale printer in the world.</li>
+          <li><strong>The 1-Bit Constraint:</strong> Understanding <a href="https://jdobr.es/blog/dithering/">dithering</a> and why thermal printers cannot print grey.</li>
       </ul>
 
+      <h3>Technical Setup</h3>
+      <p>Before we break into groups, everyone needs to set up their Python environment to talk to our Rongta RP326 printers.</p>
+      
+      <details>
+        <summary>Step 1: Install Python Libraries</summary>
+        <p>Open your terminal and install the required packages for computer vision, image processing, and printer communication:</p>
+        <pre><code>pip install opencv-python pillow python-escpos</code></pre>
+      </details>
 
-      <h3>Break - 15 minutes</h3>
+      <details>
+        <summary>Step 2: Find Your USB Vendor &amp; Product IDs</summary>
+        <p>To let Python talk to the printer, you need its exact hardware address.</p>
+        <ul>
+          <li><strong>Mac:</strong> Click the Apple Logo > About This Mac > System Report > USB. Find the printer and look for the Vendor ID and Product ID (usually looks like <code>0x04b8</code>).</li>
+          <li><strong>Windows:</strong> Open Device Manager > Universal Serial Bus controllers > Right-click the printer > Properties > Details > Hardware Ids.</li>
+        </ul>
+      </details>
 
-      <h3>Exercise - Paint in Windows XP (30 minutes)</h3>
+      <hr />
+      <h3>15 Minute Break</h3>
+      <hr />
+
+      <h3>Group Activity: The 1-Bit Photobooth</h3>
+      <p>We are breaking up into 3 groups. We will pair program using the starter code below to build a functional hardware photobooth, and then each group will modify the code to create a unique experience.</p>
+
+      <details>
+        <summary>Starter Code: The 1-Bit Thermal Photobooth</summary>
+        <p>Copy this code into a file named <code>photobooth.py</code>. Remember to change the <code>VENDOR_ID</code> and <code>PRODUCT_ID</code>!</p>
+<pre><code>import cv2
+from PIL import Image
+from escpos.printer import Usb
+
+# ==========================================
+# 1. SETUP THE PRINTER
+# ==========================================
+# Students: Replace 0xXXXX with your specific Vendor and Product IDs!
+VENDOR_ID = 0x04b8  # Example ID, needs to be updated
+PRODUCT_ID = 0x0202 # Example ID, needs to be updated
+
+try:
+    print("Connecting to Rongta RP326...")
+    p = Usb(idVendor=VENDOR_ID, idProduct=PRODUCT_ID, profile="RP326")
+    print("Printer connected successfully!")
+except Exception as e:
+    print(f"Printer connection failed: {e}")
+    print("Check your USB IDs and make sure the printer is turned on!")
+    exit()
+
+# ==========================================
+# 2. SETUP THE WEBCAM
+# ==========================================
+# '0' is usually the default built-in laptop webcam. 
+cap = cv2.VideoCapture(0)
+
+print("Webcam active. Press SPACEBAR to print a photo. Press ESC to quit.")
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame from camera.")
+        break
+
+    cv2.imshow("Thermal Photobooth - Press SPACE to print!", frame)
+    key = cv2.waitKey(1) & 0xFF
+
+    # ==========================================
+    # 3. THE PRINT LOGIC (Triggered by Spacebar)
+    # ==========================================
+    if key == 32:  # ASCII code for Spacebar
+        print("SNAP! Processing image...")
+        
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        pil_img = Image.fromarray(rgb_frame)
+        
+        # --- IMAGE PROCESSING FOR THERMAL PRINTERS ---
+        # 80mm receipt paper is exactly 512 pixels wide. 
+        target_width = 512
+        width_percent = (target_width / float(pil_img.size[0]))
+        target_height = int((float(pil_img.size[1]) * float(width_percent)))
+        
+        resized_img = pil_img.resize((target_width, target_height), Image.Resampling.LANCZOS)
+        
+        # Convert to 1-bit monochrome (pure black and white) with dithering
+        dithered_img = resized_img.convert('1')
+        dithered_img.save("last_photo.jpg")
+        
+        # Send to printer
+        print("Printing...")
+        p.image("last_photo.jpg")
+        p.text("\n--- Thanks for stopping by! ---\n\n\n")
+        p.cut()
+        print("Done! Ready for the next one.")
+
+    # ==========================================
+    # 4. QUIT LOGIC (Triggered by ESC)
+    # ==========================================
+    elif key == 27:
+        print("Closing photobooth...")
+        break
+
+cap.release()
+cv2.destroyAllWindows()</code></pre>
+      </details>
+
+      <h4>Prototyping Prompts</h4>
+      <p>Once your group gets the base script printing, pick one of the following prompts to iterate on:</p>
       <ul>
-          <li>
-              <a href="https://win32.run/">Windows XP Emulator</a>
-          </li>
-          <li>
-              Present your drawing &amp; experience, compared to previous weeks.
-          </li>
-      </ul>
-
-      <h3>Exercise - Decker Guided Tour (30 minutes)</h3>
-      <ul>
-          <li>
-              <a href="https://beyondloom.com/decker/tour.html#home">Decker (Guided Tour)</a>
-          </li>
+        <li><strong>Group 1: The Information Receipt</strong><br> Combine the photobooth experience with one (or a mix!) of your ideas from the receipt homework assignment. Can you incorporate borders, text decorations, or special formatting to make the visual hierarchy more clear in such a small space?</li>
+        <li><strong>Group 2: The Analog Glitch Art Generator</strong><br>Break the dithering! Intercept the image using OpenCV before it goes to the printer. Crank the contrast, apply edge-detection filters (like Canny), or slice and mirror the image array to create thermal glitch art.</li>
+        <li><strong>Group 3: The ASCII Text Mirror</strong><br>Abandon the <code>p.image()</code> function. Break the webcam frame down into a tiny grid, calculate the average brightness of each "block", and map that brightness to a specific ASCII character (e.g., # for dark, . for light). Print a portrait entirely out of text characters!</li>
       </ul>
 
       <h3>Homework</h3>
       <ul>
-          <li> Create a simple, interactive 5-card presentation in Decker that
-teaches a concept from a previous week (e.g., "What is a CLI?") Save as a .deck file and attach to the Canvas assignment.
-          </li>
+        <li><strong>Reading:</strong> <a href="https://folk.computer/docs/" target="_blank">Folk OS Documentation</a> (Review the introductory guides and basic Tcl syntax to prepare for next week).</li>
+        <li><strong>Assignment:</strong> Think of 3 spatial programs you'd like to make using Folk Computer. Wireframe them in Figma, detailing how a user would physically interact with them on the table (e.g., rotating them, pointing at them, moving them next to another program).</li>
       </ul>
     </div>
   </body>

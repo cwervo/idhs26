@@ -3,69 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interaction Design History</title>
+    <title>Interaction Design History - Week 5</title>
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <div class="container">
       <h1>Interaction Design History Spring 2026 | Week 5 | April 6, 2026</h1>
 
-      <h2>Agenda</h2>
+      <h2>Contextual Computing &amp; Systems</h2>
 
+      <h3>Agenda Overview</h3>
       <ul>
-          <li>Lecture: The Touch Revolution</li>
-          <li>Lecture: Rise of Flat Design</li>
-          <li>Exercise: Phone App Analysis</li>
-          <li>Homework</li>
+        <li>Lecture: Contextual Computing &amp; Invisible Interfaces (90 mins)</li>
+        <li>Break (10 minutes)</li>
+        <li>Activity: The Local Network sva-node (60 mins)</li>
+        <li>Homework Overview</li>
       </ul>
 
-      <h3>From Swiss Design to Flat Design</h3>
+      <h3>Lecture: Re-evaluating Weiser &amp; System Integration</h3>
+      <p>We've spent the last month building discrete inputs (cameras, ArUco markers) and outputs (receipt printers). Today, we look at the glue that binds them: the network and the context.</p>
+      
       <ul>
-          <li>
-              <a href="http://www.designishistory.com/home/swiss/">Swiss design</a>
-          </li>
-          <li>
-              <a href="https://thenextweb.com/news/history-flat-design-efficiency-minimalism-made-digital-world-flat">Toward flat design</a>
-          </li>
-          <li>
-              <a href="https://www.interaction-design.org/literature/article/flat-design-an-introduction?srsltid=AfmBOoqs0GpWZg4qAx0K-zT9H3NTZb6BCZ4YIR5ST8zKxORveng_hT0G">Flat design origins</a>
-          </li>
-          <li>
-              <a href="https://www.cultofmac.com/news/jony-ive-explains-why-he-decided-to-gut-skeuomorphism-out-of-ios#:~:text=This%20is%20the%20first%20post%2DRetina%20(Display)%20UI%20(user%20interface)%2C">Jony Ive on Apple's turn to flat design</a>
-          </li>
-          <li>
-              <a href="https://9to5mac.com/2025/05/30/remembering-the-controversial-ios-7-introduction/">Apple's announcement of iOS 7 &amp; flat design in response to Metro</a>
-          </li>
-          <li>
-              <a href="https://guidebooks.google.com/android/getstarted/gesturenavigation?hl=en-us">Android gesture navigation</a>
-          </li>
-          <li>
-              <a href="https://support.apple.com/guide/iphone/learn-gestures-for-iphone-models-with-face-id-iphfdf164cac/ios">iOS gesture navigation</a>
-          </li>
-          <li>
-              <a href="https://m3.material.io/blog/building-with-m3-expressive#what-rsquo-s-in-the-update">Google Material Design, an evolution of flat design</a>
-          </li>
-          <li>
-              <a href="https://m3.material.io/styles/elevation/overview">Elevation in Material Design, a particularly interesting aspect of M3</a>
-          </li>
+        <li><strong>Part 1: The Evolution of "Invisible" Computing</strong>
+          <ul>
+            <li><strong>Review:</strong> Weiser’s 1991 vision of computing disappearing into the background. Did it happen? (The smartphone vs. the smart environment).</li>
+            <li><strong>The "Invisible" Interface:</strong> When the system anticipates intent without explicit UI.
+              <ul>
+                <li><em>Example:</em> <a href="https://www.youtube.com/watch?v=NrmMk1Myrxc" target="_blank">Amazon Go / Just Walk Out</a> (The camera as the entire checkout interface).</li>
+                <li><em>Example:</em> <a href="https://www.nest.com/" target="_blank">The Original Nest Thermostat</a> (Learning behavior vs. manual scheduling).</li>
+              </ul>
+            </li>
+            <li><strong>The Pitfalls of Invisibility:</strong> What happens when the system is wrong, but you can't see the controls to fix it? (Discussing user agency and "Seamful Design").</li>
+          </ul>
+        </li>
+        
+        <li><strong>Part 2: Contextual Awareness</strong>
+          <ul>
+            <li>How does a system know <em>where</em> it is and <em>what</em> is happening around it?</li>
+            <li><strong>Location &amp; Proximity:</strong> 
+              <ul>
+                <li><em>Example:</em> <a href="https://developer.apple.com/ibeacon/" target="_blank">iBeacon &amp; BLE (Bluetooth Low Energy)</a> - How retail stores know you are standing in front of the shoe aisle.</li>
+                <li><em>Example:</em> <a href="https://support.apple.com/guide/iphone/meet-up-with-a-friend-iph3effd0ed6/ios" target="_blank">Apple's U1 Chip (Ultra Wideband)</a> - The spatial awareness powering AirDrop and AirTags.</li>
+              </ul>
+            </li>
+            <li><strong>State &amp; Environment:</strong> Sensors beyond the camera (RFID, light, temperature, accelerometers).</li>
+          </ul>
+        </li>
+
+        <li><strong>Part 3: How Physical Programs "Talk"</strong>
+          <ul>
+            <li>How do devices communicate when they don't share a screen?</li>
+            <li><strong>The Network Topologies:</strong>
+              <ul>
+                <li><em>Client-Server:</em> Everyone talks to a central brain (like our WebSockets activity).</li>
+                <li><em>Peer-to-Peer (P2P):</em> Devices talk directly to each other (e.g., Apple's Mesh networking for "Find My").</li>
+              </ul>
+            </li>
+            <li><strong>Protocols:</strong> The languages devices use to share state. 
+              <ul>
+                  <li><em><a href="https://medium.com/@santhoshziyam/understanding-mqtt-and-its-role-in-event-driven-api-system-architecture-ea478d666520">MQTT:</a></em> Lightweight messaging for IoT devices.</li>
+                  <li><em><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket">WebSockets:</a></em> Real-time, bi-directional communication (what we will use today).</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
 
-      <h3>15 minute break</h3>
+      <hr />
+      <h3>10 Minute Break</h3>
+      <hr />
 
-      <h3>Exercise - Phone app analysis</h3>
-      <ul>
-          <li>
-              Using your own smartphone, find and document three
-apps: one that uses excellent flat design, one that still has skeuomorphic
-elements, and one with a confusing navigation structure. Take screenshots and annotate them in Figma. At the end of 40 minutes we'll present our findings.
-          </li>
-      </ul>
+      <details>
+        <summary>Activity: sva-node</summary>
+
+        <ul>
+            <li>        In your terminal run <code>git clone https://github.com/cwervo/sva-node.git</code></li>
+            <li>Follow the instructions in the README.md file to run the code, have someone next to you try connecting to your laptop's version of the code running</li>
+            <li>Now we'll break up into small groups and try changing the code together</li>
+        </ul>
+
+    </details>
 
       <h3>Homework</h3>
       <ul>
-          <li> (From yesterday) Create a simple, interactive 5-card presentation in Decker that
-teaches a concept from a previous week (e.g., "What is a CLI?") Save as a .deck file and attach to the Canvas assignment.
-          </li>
+        TBD
       </ul>
     </div>
   </body>

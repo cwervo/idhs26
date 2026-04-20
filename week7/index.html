@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interaction Design History</title>
     <link rel="stylesheet" href="../style.css" />
+<style>
+pre {
+    outline: 1px solid papayawhip;
+    padding: 12px;
+    border-radius: 4px;
+}
+</style>
   </head>
   <body>
     <div class="container">
@@ -32,6 +39,137 @@
       <ul>
           <li>Let's break up into 4 groups (counting off by 4) and spend some time trying to make programs for the folk system.</li>
       </ul>
+
+      <h3>Some code to try out:</h3>
+        <!-- Section 1 -->
+        <section>
+            <h2>1. Quick Starters (Copy & Paste)</h2>
+            <p>
+                The easiest way to see drawing in action is to drop one of these one-liners into a new program. Because they target <code>$this</code>, they automatically scale and position themselves relative to your program's physical or virtual bounding box.
+            </p>
+            <pre><code># Draw a colored outline around your program
+Wish $this is outlined blue
+
+# Add a simple text label in the center
+Wish $this is labelled "hello there"
+
+# Add a large title above the program
+Wish $this is titled "My Program"</code></pre>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <h2>2. Titles & Labels</h2>
+            <p>
+                Folk includes a set of grammatical rules (<code>title.folk</code> and decorations) to quickly annotate your programs without manually calculating coordinates.
+            </p>
+            <pre><code># Displays large text anchored above the top edge
+Wish $this is titled "Main Interface"
+
+# Add a centered label directly on the program
+Wish $this is labelled "Status: Active"</code></pre>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <h2>3. Images, GIFs, & Sprites</h2>
+            <p>
+                Folk can load and display external assets natively. It supports fetching directly from a local path (<code>~/folk-images/</code>) or over <code>http</code>/<code>https</code>.
+            </p>
+            <pre><code># Display a standard image, automatically scaled to the program's geometry
+Wish $this displays image "https://folk.computer/_media/logo.png"
+
+# Load an animated GIF
+Wish $this displays gif "my_animation.gif"</code></pre>
+
+            <h3>Sprites (<code>sprites.folk</code>)</h3>
+            <p>
+                You can animate sprite sheets by declaring the number of frames and columns.
+            </p>
+            <pre><code># Animates a sprite sheet at 60fps
+Wish $this draws sprite "character_run.png" with \
+    frames 8 columns 4 fps 30</code></pre>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+            <h2>4. Paths, Lines, & Circles</h2>
+            <p>
+                When you need exact control over vertices, you must drop down to a lower-level context using <code>When $this has resolved geometry /geom/</code>, which gives you access to the exact coordinate space. Coordinates are measured in meters relative to your program.
+            </p>
+
+            <h3>Solid Lines</h3>
+            <pre><code>When $this has resolved geometry /geom/ {
+    # Draw a set of connected points (a stroke)
+    Wish to draw a line onto $this with \
+        points {{0.0 0.0} {0.1 0.1} {0.2 0.0}} \
+        color "green" width 0.01
+}
+
+# You can also mix in high-level commands
+Wish $this is outlined gold</code></pre>
+
+            <h3>Dashed Lines</h3>
+            <pre><code>When $this has resolved geometry /geom/ {
+    # Draw a dashed line
+    Wish to draw a dashed line onto $this with \
+        points {{-0.1 0.05} {0.1 0.05}} \
+        color "blue" width 0.01 dashlength 0.02
+}</code></pre>
+
+            <h3>Circles</h3>
+            <p>Circles can be drawn as outlines or solid filled shapes.</p>
+            <p><strong>Arguments:</strong> <code>center</code> (or <code>x</code> and <code>y</code>), <code>radius</code>, <code>thickness</code>, <code>color</code>, <code>filled</code> (boolean)</p>
+            
+            <pre><code>When $this has resolved geometry /geom/ {
+    # Draw a circle outline
+    Wish to draw a circle onto $this with \
+        center {0.05 0.05} radius 0.03 thickness 0.005 color "green"
+
+    # Draw a solid, filled circle
+    Wish to draw a circle onto $this with \
+        x 0.15 y 0.05 radius 0.03 thickness 0 color "hotpink" filled true
+}</code></pre>
+        </section>
+
+        <!-- Section 5 -->
+        <section>
+            <h2>5. AprilTags & Custom Pipelines</h2>
+            <p>
+                Folk allows you to dynamically render computer-vision tags directly to the display, which is highly useful for projecting tracked objects.
+            </p>
+            <p>
+                <strong>API:</strong> <code>Wish to draw an AprilTag onto $this with ...</code>
+            </p>
+            <pre><code>When $this has resolved geometry /geom/ {
+    # Draw tag ID 42 in a 0.1 x 0.1 meter square
+    Wish to draw an AprilTag onto $this with \
+        id 42 corners {{0 0} {0.1 0} {0.1 0.1} {0 0.1}}
+}</code></pre>
+        </section>
+
+        <!-- Section 6 -->
+        <section>
+            <h2>6. Interactions: Pointing</h2>
+            <p>
+                You can create interactive programs that detect when they are physically pointing at another program on the table.
+            </p>
+            <p>
+                First, declare a <code>Wish</code> for your program to project a pointer in a specific direction (<code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>) with a certain length (in meters). The system will automatically draw a "whisker" line on the table. When that whisker overlaps with another program, Folk emits a <code>points ... at</code> claim that you can react to!
+            </p>
+            <pre><code># 1. Project a 0.2 meter (20cm) pointer to the right of this program
+Wish $this points "right" with length 0.2
+
+# 2. React when the pointer hits another program (which we'll call /target/)
+When $this points "right" at /target/ & \
+     /target/ has resolved geometry /geom/ {
+    Wish to draw a circle onto $target with \
+        center {0.05 0.05} radius 0.02 thickness 0 color "red" filled true
+}
+
+Wish $this is outlined blue</code></pre>
+        </section>
+
     </div>
   </body>
 </html>

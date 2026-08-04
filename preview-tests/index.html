@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IDHS — Link Preview Tests</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="../favicon.ico" sizes="48x48" />
+    <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32" />
+    <style>
+      :root {
+        --paper: #f6f0e2;
+        --ink: #141010;
+        --magenta: #ec008c;
+        --cyan: #00aeef;
+        --yellow: #ffde17;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 2rem 1.5rem 4rem;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "IBM Plex Mono", "Noto Sans Mono", ui-monospace, monospace;
+      }
+      main { max-width: 1100px; margin: 0 auto; }
+      h1 {
+        border: 3px solid var(--ink);
+        outline: 1px solid var(--ink);
+        outline-offset: 3px;
+        padding: 0.75rem 1rem;
+        font-size: 1.4rem;
+      }
+      h1 small { display: block; font-weight: normal; font-size: 0.8rem; margin-top: 0.4rem; }
+      .controls { margin: 1.5rem 0; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+      select, button {
+        font: inherit; padding: 0.4rem 0.6rem; background: white;
+        border: 2px solid var(--ink); cursor: pointer;
+      }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+      .sim {
+        border: 2px solid var(--ink); background: white; padding: 1rem;
+        box-shadow: 5px 5px 0 var(--magenta);
+      }
+      .sim > h2 {
+        margin: 0 0 0.75rem; font-size: 0.85rem; text-transform: uppercase;
+        letter-spacing: 0.08em; display: flex; justify-content: space-between;
+      }
+      .sim > h2 .ok { color: #0a7d38; }
+      .sim > h2 .fail { color: #c0392b; }
+      figure { margin: 0; }
+      figcaption { font-size: 0.7rem; margin-top: 0.6rem; color: #666; }
+
+      /* ---- iMessage ---- */
+      .imessage { background: #f2f2f7; border-radius: 14px; padding: 12px; }
+      .im-card {
+        max-width: 300px; margin-left: auto; border-radius: 14px; overflow: hidden;
+        background: #e9e9eb; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      }
+      .im-card img { width: 100%; display: block; }
+      .im-meta { padding: 8px 12px; }
+      .im-title { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 13px; font-weight: 600; }
+      .im-domain { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 12px; color: #8e8e93; margin-top: 2px; }
+
+      /* ---- Instagram DM ---- */
+      .instadm { background: #fff; border-radius: 14px; padding: 12px; border: 1px solid #dbdbdb; }
+      .ig-card {
+        max-width: 300px; border-radius: 18px; overflow: hidden; background: #efefef;
+      }
+      .ig-bubble-text {
+        font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px;
+        padding: 10px 12px 4px; color: #00376b; word-break: break-all;
+      }
+      .ig-card img { width: 100%; display: block; }
+      .ig-meta { padding: 8px 12px 10px; }
+      .ig-title { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 13px; font-weight: 600; color: #262626; }
+      .ig-domain { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 12px; color: #8e8e8e; margin-top: 2px; }
+
+      /* ---- X / Twitter ---- */
+      .xcom { background: #000; border-radius: 14px; padding: 12px; }
+      .x-card { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid #2f3336; max-width: 440px; }
+      .x-card img { width: 100%; display: block; }
+      .x-overlay {
+        position: absolute; left: 12px; bottom: 12px; background: rgba(0,0,0,0.77);
+        color: #fff; font-family: "Segoe UI", Roboto, Arial, sans-serif; font-size: 13px;
+        padding: 2px 8px; border-radius: 4px; max-width: 85%;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .x-domain { color: #71767b; font-family: "Segoe UI", Roboto, Arial, sans-serif; font-size: 13px; margin-top: 6px; }
+
+      /* ---- Discord ---- */
+      .discord { background: #313338; border-radius: 8px; padding: 16px; }
+      .d-embed {
+        background: #2b2d31; border-left: 4px solid var(--accent, #ec008c);
+        border-radius: 4px; padding: 12px 16px 16px; max-width: 432px;
+      }
+      .d-site { color: #b5bac1; font-family: "gg sans", "Segoe UI", Roboto, Arial, sans-serif; font-size: 12px; }
+      .d-title { color: #00a8fc; font-family: "gg sans", "Segoe UI", Roboto, Arial, sans-serif; font-size: 16px; font-weight: 600; margin-top: 6px; }
+      .d-desc { color: #dbdee1; font-family: "gg sans", "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; margin-top: 6px; line-height: 1.35; }
+      .d-embed img { width: 100%; border-radius: 4px; margin-top: 12px; display: block; }
+
+      /* ---- favicon strip ---- */
+      .fav-strip { display: flex; gap: 1.5rem; align-items: flex-end; flex-wrap: wrap; }
+      .fav-strip figure { text-align: center; }
+      .fav-strip img { image-rendering: pixelated; border: 1px dashed #aaa; background: white; }
+      .tab-mock {
+        display: inline-flex; align-items: center; gap: 8px; background: #dee1e6;
+        border-radius: 8px 8px 0 0; padding: 8px 14px; font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        font-size: 12px; color: #202124; max-width: 240px; border: 1px solid #bdc1c6; border-bottom: none;
+      }
+      .tab-mock img { border: none; background: none; }
+      .tab-mock span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      table { border-collapse: collapse; width: 100%; font-size: 0.75rem; }
+      td, th { border: 1px solid var(--ink); padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; word-break: break-word; }
+      th { background: var(--yellow); }
+      .validators li { margin: 0.35rem 0; }
+      section { margin-top: 2.5rem; }
+      .note { font-size: 0.8rem; background: white; border: 2px dashed var(--ink); padding: 0.75rem 1rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>
+        IDHS Link-Preview Test Bench
+        <small>Simulated Instagram DM · X (Twitter) · iMessage · Discord renderings, built live from the meta
+        tags parsed out of this site's actual HTML.</small>
+      </h1>
+
+      <div class="controls">
+        <label for="page">Page under test:</label>
+        <select id="page"></select>
+        <button id="reload">Re-parse tags</button>
+      </div>
+
+      <p class="note">
+        Each card below is rendered from the <code>og:*</code> / <code>twitter:*</code> /
+        <code>theme-color</code> tags fetched and parsed from the selected page at load time —
+        if a tag is missing or the image 404s, the corresponding card breaks visibly.
+        Cross-check against the live scrapers with the validator links at the bottom once deployed.
+      </p>
+
+      <div class="grid" id="cards">
+        <div class="sim" data-only="imessage">
+          <h2>iMessage <span id="st-imessage"></span></h2>
+          <figure>
+            <div class="imessage">
+              <div class="im-card">
+                <img id="im-img" alt="og:image" />
+                <div class="im-meta">
+                  <div class="im-title" id="im-title"></div>
+                  <div class="im-domain" id="im-domain"></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>Apple link presentation: <code>og:image</code> on top, <code>og:title</code> + domain below.</figcaption>
+          </figure>
+        </div>
+
+        <div class="sim" data-only="instagram">
+          <h2>Instagram DM <span id="st-instagram"></span></h2>
+          <figure>
+            <div class="instadm">
+              <div class="ig-card">
+                <div class="ig-bubble-text" id="ig-url"></div>
+                <img id="ig-img" alt="og:image" />
+                <div class="ig-meta">
+                  <div class="ig-title" id="ig-title"></div>
+                  <div class="ig-domain" id="ig-domain"></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>IG DM link bubble: URL text, <code>og:image</code>, <code>og:title</code>, domain.</figcaption>
+          </figure>
+        </div>
+
+        <div class="sim" data-only="x">
+          <h2>X (Twitter) <span id="st-x"></span></h2>
+          <figure>
+            <div class="xcom">
+              <div class="x-card">
+                <img id="x-img" alt="twitter:image" />
+                <div class="x-overlay" id="x-title"></div>
+              </div>
+              <div class="x-domain" id="x-domain"></div>
+            </div>
+            <figcaption><code>summary_large_image</code> card: image with title overlay, domain line beneath.</figcaption>
+          </figure>
+        </div>
+
+        <div class="sim" data-only="discord">
+          <h2>Discord <span id="st-discord"></span></h2>
+          <figure>
+            <div class="discord">
+              <div class="d-embed" id="d-embed">
+                <div class="d-site" id="d-site"></div>
+                <div class="d-title" id="d-title"></div>
+                <div class="d-desc" id="d-desc"></div>
+                <img id="d-img" alt="og:image" />
+              </div>
+            </div>
+            <figcaption>Discord embed: <code>og:site_name</code>, title, description, image; accent stripe from <code>theme-color</code>.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <section data-only="favicon">
+        <div class="sim">
+          <h2>Favicon previews <span id="st-favicon"></span></h2>
+          <div class="fav-strip">
+            <figure><img src="../assets/favicon-16.png" width="16" height="16" alt="16px favicon" /><figcaption>16 px</figcaption></figure>
+            <figure><img src="../assets/favicon-32.png" width="32" height="32" alt="32px favicon" /><figcaption>32 px</figcaption></figure>
+            <figure><img src="../favicon.ico" width="48" height="48" alt="favicon.ico" /><figcaption>.ico 48 px</figcaption></figure>
+            <figure><img src="../assets/apple-touch-icon.png" width="90" height="90" alt="apple touch icon" style="border-radius: 20px;" /><figcaption>apple-touch 180 px</figcaption></figure>
+            <figure><img src="../assets/favicon-512.png" width="128" height="128" alt="512px favicon" /><figcaption>512 px source</figcaption></figure>
+            <figure>
+              <div class="tab-mock">
+                <img src="../assets/favicon-16.png" width="16" height="16" alt="" />
+                <span id="tab-title">SVA IxD | Interaction Design History…</span>
+              </div>
+              <figcaption>browser tab mock</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="sim">
+          <h2>Parsed tags (live)</h2>
+          <table id="tagtable"><tr><th>tag</th><th>content</th></tr></table>
+        </div>
+      </section>
+
+      <section>
+        <div class="sim validators">
+          <h2>Online validators (run after deploy)</h2>
+          <ul>
+            <li><a href="https://www.opengraph.xyz/url/https%3A%2F%2Fcwervo.github.io%2Fidhs26%2F">opengraph.xyz — multi-platform preview</a></li>
+            <li><a href="https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Fcwervo.github.io%2Fidhs26%2F">Meta Sharing Debugger — covers Instagram DM scraping</a></li>
+            <li><a href="https://cards-dev.twitter.com/validator">X Card Validator</a></li>
+            <li><a href="https://socialsharepreview.com/?url=https://cwervo.github.io/idhs26/">socialsharepreview.com</a></li>
+            <li><a href="https://discohook.org/">Discohook — paste the URL in a message to test the Discord embed</a></li>
+            <li><a href="https://www.messagepreview.com/">messagepreview.com — iMessage preview tester</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const PAGES = {
+        "Home": "../",
+        "Week 1": "../week1/", "Week 2": "../week2/", "Week 3": "../week3/",
+        "Week 4": "../week4/", "Week 5": "../week5/", "Week 6": "../week6/",
+        "Week 7": "../week7/",
+      };
+      const DEPLOY_BASE = "https://cwervo.github.io/idhs26/";
+      const sel = document.getElementById("page");
+      for (const name of Object.keys(PAGES)) {
+        const o = document.createElement("option");
+        o.textContent = name; o.value = PAGES[name];
+        sel.appendChild(o);
+      }
+
+      // When testing locally / pre-deploy, absolute og:image URLs point at the
+      // deployed site; rewrite them to relative paths so the simulation still
+      // exercises the real committed asset.
+      function localize(url) {
+        if (!url) return url;
+        if (location.origin + location.pathname.replace(/preview-tests.*/, "/") !==
+            DEPLOY_BASE && url.startsWith(DEPLOY_BASE)) {
+          return "../" + url.slice(DEPLOY_BASE.length);
+        }
+        return url;
+      }
+
+      function status(id, ok, msg) {
+        const el = document.getElementById("st-" + id);
+        el.textContent = ok ? "PASS" : "FAIL" + (msg ? " — " + msg : "");
+        el.className = ok ? "ok" : "fail";
+      }
+
+      function imgCheck(el, id) {
+        el.onload = () => status(id, true);
+        el.onerror = () => status(id, false, "image failed to load");
+      }
+
+      async function run() {
+        const path = sel.value;
+        const res = await fetch(path, { cache: "no-store" });
+        const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+        const tag = (q) => {
+          const el = doc.querySelector(`meta[property="${q}"], meta[name="${q}"]`);
+          return el ? el.getAttribute("content") : null;
+        };
+
+        const og = {
+          title: tag("og:title"), desc: tag("og:description"),
+          url: tag("og:url"), image: tag("og:image"),
+          site: tag("og:site_name"), theme: tag("theme-color"),
+          card: tag("twitter:card"), twImage: tag("twitter:image"),
+          twTitle: tag("twitter:title"),
+        };
+        const domain = og.url ? new URL(og.url).hostname : "(no og:url)";
+        const img = localize(og.image);
+        const twImg = localize(og.twImage);
+
+        // iMessage
+        document.getElementById("im-img").src = img;
+        imgCheck(document.getElementById("im-img"), "imessage");
+        document.getElementById("im-title").textContent = og.title || "(missing og:title)";
+        document.getElementById("im-domain").textContent = domain;
+
+        // Instagram DM
+        document.getElementById("ig-url").textContent = og.url;
+        document.getElementById("ig-img").src = img;
+        imgCheck(document.getElementById("ig-img"), "instagram");
+        document.getElementById("ig-title").textContent = og.title || "(missing og:title)";
+        document.getElementById("ig-domain").textContent = domain;
+
+        // X — must be summary_large_image + twitter:image
+        document.getElementById("x-img").src = twImg;
+        const xok = og.card === "summary_large_image" && !!og.twImage;
+        document.getElementById("x-img").onload = () => status("x", xok,
+          xok ? "" : "twitter:card/image missing");
+        document.getElementById("x-img").onerror = () => status("x", false, "image failed");
+        document.getElementById("x-title").textContent = og.twTitle || og.title;
+        document.getElementById("x-domain").textContent = "From " + domain;
+
+        // Discord
+        document.getElementById("d-embed").style.setProperty("--accent", og.theme || "#5865f2");
+        document.getElementById("d-site").textContent = og.site || "";
+        document.getElementById("d-title").textContent = og.title || "(missing og:title)";
+        document.getElementById("d-desc").textContent = og.desc || "";
+        document.getElementById("d-img").src = img;
+        imgCheck(document.getElementById("d-img"), "discord");
+
+        // favicon strip is static; PASS once the .ico loads
+        const ico = new Image();
+        ico.onload = () => status("favicon", true);
+        ico.onerror = () => status("favicon", false, ".ico failed");
+        ico.src = "../favicon.ico";
+
+        // tag table
+        const table = document.getElementById("tagtable");
+        table.innerHTML = "<tr><th>tag</th><th>content</th></tr>";
+        doc.querySelectorAll('meta[property^="og:"], meta[name^="twitter:"], meta[name="theme-color"], meta[name="description"]')
+          .forEach((m) => {
+            const tr = document.createElement("tr");
+            const name = m.getAttribute("property") || m.getAttribute("name");
+            tr.innerHTML = `<td>${name}</td><td></td>`;
+            tr.children[1].textContent = m.getAttribute("content");
+            table.appendChild(tr);
+          });
+      }
+
+      // ?only=<imessage|instagram|x|discord|favicon> isolates one card (used
+      // by the screenshot harness).
+      const only = new URLSearchParams(location.search).get("only");
+      if (only) {
+        document.querySelectorAll("[data-only]").forEach((el) => {
+          if (el.dataset.only !== only) el.style.display = "none";
+        });
+        document.querySelectorAll("section:not([data-only]), .controls, .note, h1 small")
+          .forEach((el) => (el.style.display = "none"));
+      }
+
+      sel.addEventListener("change", run);
+      document.getElementById("reload").addEventListener("click", run);
+      run();
+    </script>
+  </body>
+</html>
